@@ -177,3 +177,4 @@ dist
 test.ts
 tg-bot-api
 locales
+locales.types.ts

@@ -4,7 +4,9 @@
 
 This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.
 
-WIP. For now without full type-safety.
+![example](https://github.com/gramiojs/i18n/assets/57632712/47e04c22-f442-4a5a-b8b9-15b8512f7c4b)
+
+You can [setup type-safety](#type-safety) for it.
 
 ## Usage
 
@@ -36,7 +38,7 @@ shared-photos =
 import { Bot } from "gramio";
 import { i18n } from "@gramio/i18n";
 
-const bot = new Bot(process.env.token!)
+const bot = new Bot(process.env.TOKEN as string)
     .extend(i18n())
     .command("start", async (context) => {
         return context.send(
@@ -95,4 +97,58 @@ bot.command("start", async (context) => {
         })
     );
 });
+```
+
+## Type-safety
+
+You can use this plugin with [fluent2ts](https://github.com/kravetsone/fluent2ts) which code-generates typescript types from your `.ftl` files.
+See [usage](https://github.com/kravetsone/fluent2ts?tab=readme-ov-file#usage).
+
+Npm:
+
+```bash [npm]
+npx fluent2ts
+```
+
+Bun:
+
+```bash [bun]
+bunx fluent2ts
+```
+
+Yarn:
+
+```bash [yarn]
+yarn dlx fluent2ts
+```
+
+Pnpm:
+
+```bash [pnpm]
+pnpm exec fluent2ts
+```
+
+And so we have a generated `locales.types.ts` file in `src` folder that exports the `TypedFluentBundle` interface.
+We set this type as a **generic** for the `i18n` plugin. And now we have **type-safety**!
+
+```ts
+import type { TypedFluentBundle } from "./locales.types";
+import { Bot } from "gramio";
+import { i18n } from "@gramio/i18n";
+
+const bot = new Bot(process.env.TOKEN as string)
+    .extend(i18n<TypedFluentBundle>())
+    .command("start", async (context) => {
+        return context.send(
+            context.t("shared-photos", {
+                userName: "Anna",
+                userGender: "female",
+                photoCount: 3,
+            })
+        );
+    })
+    .onError(console.error)
+    .onStart(console.log);
+
+bot.start();
 ```

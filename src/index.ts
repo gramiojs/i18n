@@ -21,7 +21,9 @@ export interface I18nOptions {
 	directory?: string;
 }
 
-export function i18n(options?: I18nOptions) {
+export function i18n<Bundle extends FluentBundle = FluentBundle>(
+	options?: I18nOptions,
+) {
 	const defaultLocale = options?.defaultLocale ?? "en";
 	const directory = options?.directory ?? "locales";
 
@@ -51,7 +53,10 @@ export function i18n(options?: I18nOptions) {
 
 				language = lang;
 			},
-			t: (id: string, args?: Record<string, FluentVariable>) => {
+			t: ((
+				id: string,
+				args?: Record<string, FluentVariable>,
+			) => {
 				const bundle = bundles.get(language);
 				if (!bundle) throw new Error(`No ${language} language found`);
 
@@ -59,7 +64,7 @@ export function i18n(options?: I18nOptions) {
 				if (!message?.value) throw new Error(`No message found for ${id}`);
 
 				return bundle.formatPattern(message.value, args);
-			},
+			}) as Bundle["formatPattern"],
 		};
 	});
 }
