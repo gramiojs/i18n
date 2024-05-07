@@ -1,7 +1,7 @@
 {
     "name": "@gramio/i18n",
-    "version": "0.0.1",
-    "description": "i18n plugin for GramIO",
+    "version": "0.0.2",
+    "description": "i18n plugin for GramIO with type-safety",
     "main": "dist/index.js",
     "type": "commonjs",
     "homepage": "https://github.com/gramiojs/i18n",
@@ -38,7 +38,6 @@
         "dist"
     ],
     "dependencies": {
-        "@fluent/bundle": "^0.18.0",
-        "@gramio/storage": "^0.0.2"
+        "@fluent/bundle": "^0.18.0"
     }
 }

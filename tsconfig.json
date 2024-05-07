@@ -17,5 +17,5 @@
         "rootDir": "./src",
         "outDir": "./dist"
     },
-    "include": ["src", "test.ts"]
+    "include": ["src", "test.ts", "locales.types.ts"]
 }
