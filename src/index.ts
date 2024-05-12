@@ -1,3 +1,7 @@
+/**
+ * @module
+ * `i18n` plugin for [GramIO](https://gramio.netlify.app/).
+ */
 import fs from "node:fs";
 import path from "node:path";
 import {
@@ -8,6 +12,7 @@ import {
 } from "@fluent/bundle";
 import { Plugin } from "gramio";
 
+/** Options for {@link i18n} plugin */
 export interface I18nOptions {
 	/**
 	 * Default locale
@@ -21,6 +26,30 @@ export interface I18nOptions {
 	directory?: string;
 }
 
+/**
+ * This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.
+ * @example
+ * ```ts
+ * import { Bot } from "gramio";
+ * import { i18n } from "@gramio/i18n";
+ *
+ * const bot = new Bot(process.env.TOKEN as string)
+ *     .extend(i18n())
+ *     .command("start", async (context) => {
+ *         return context.send(
+ *             context.t("shared-photos", {
+ *                 userName: "Anna",
+ *                 userGender: "female",
+ *                 photoCount: 3,
+ *             })
+ *         );
+ *     })
+ *     .onError(console.error)
+ *     .onStart(console.log);
+ *
+ * bot.start();
+ * ```
+ */
 export function i18n<Bundle extends FluentBundle = FluentBundle>(
 	options?: I18nOptions,
 ) {
@@ -37,26 +66,44 @@ export function i18n<Bundle extends FluentBundle = FluentBundle>(
 			.readFileSync(path.resolve(directory, entry.name))
 			.toString();
 
-		const bundle = new FluentBundle(lang);
+		// TODO: add Formattable support
+		const bundle = new FluentBundle(lang, {
+			// functions: {
+			// 	TEST: (value) => {
+			// 		console.log("E", value);
+			// 		return value[0];
+			// 	}
+			// },
+			// transform: (text) => {
+			// 	console.log("T", text)
+			// 	return {toJSON: () => {
+			// 		console.log("called toJSON")
+			// 		return text;
+			// 	}};
+			// }
+		});
 		const resource = new FluentResource(source);
 		bundle.addResource(resource);
 		bundles.set(lang, bundle);
 	}
 
-	return new Plugin("@gramio/i18n").derive((context) => {
+	return new Plugin("@gramio/i18n").derive(() => {
 		let language = defaultLocale;
 
 		return {
-			setLocale: (lang: string) => {
-				if (!bundles.has(lang))
-					throw new Error(`No ${language} language found`);
+			/** Object with localization utils and settings */
+			i18n: {
+				/** Current user locale */
+				locale: language,
+				/** Set locale to current user */
+				setLocale: (lang: string) => {
+					if (!bundles.has(lang))
+						throw new Error(`No ${language} language found`);
 
-				language = lang;
+					language = lang;
+				},
 			},
-			t: ((
-				id: string,
-				args?: Record<string, FluentVariable>,
-			) => {
+			t: ((id: string, args?: Record<string, FluentVariable>) => {
 				const bundle = bundles.get(language);
 				if (!bundle) throw new Error(`No ${language} language found`);
 
