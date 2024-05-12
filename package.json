@@ -7,8 +7,9 @@
     "homepage": "https://github.com/gramiojs/i18n",
     "readme": "https://gramio.netlify.app/plugins/official/i18n.html",
     "scripts": {
-        "prepublishOnly": "tsc && bunx tsc-alias",
-        "generate": "bun scripts/generate.ts"
+        "prepublishOnly": "tsc",
+        "generate": "bun scripts/generate.ts",
+        "jsr": "bun scripts/release-jsr.ts"
     },
     "keywords": [
         "gramio",
