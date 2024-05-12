@@ -8,7 +8,7 @@ import {
 	FluentBundle,
 	FluentResource,
 	type FluentVariable,
-	// @ts-expect-error
+	// @ts-ignore
 } from "@fluent/bundle";
 import { Plugin } from "gramio";
 
