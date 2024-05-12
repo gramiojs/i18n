@@ -1,5 +1,9 @@
 # @gramio/i18n
 
+[![npm](https://img.shields.io/npm/v/@gramio/i18n?logo=npm&style=flat&labelColor=000&color=3b82f6)](https://www.npmjs.org/package/@gramio/i18n)
+[![JSR](https://jsr.io/badges/@gramio/i18n)](https://jsr.io/@gramio/i18n)
+[![JSR Score](https://jsr.io/badges/@gramio/i18n/score)](https://jsr.io/@gramio/i18n)
+
 `i18n` plugin for [GramIO](https://gramio.netlify.app/).
 
 This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.
@@ -78,7 +82,7 @@ hello-user = Hello, {$userName}!
 context.t("hello-user", { userName: "Anna" }); // Hello, Anna!
 ```
 
-#### setLocale
+#### i18n.setLocale
 
 You can set user locale by `setLocale` method.
 
@@ -87,7 +91,7 @@ You can set user locale by `setLocale` method.
 
 ```ts
 bot.command("start", async (context) => {
-    context.setLocale("ru");
+    context.i18n.setLocale("ru");
 
     return context.send(
         context.t("shared-photos", {
@@ -96,6 +100,16 @@ bot.command("start", async (context) => {
             photoCount: 3,
         })
     );
+});
+```
+
+#### i18n.locale
+
+Get current user locale.
+
+```ts
+bot.command("lang", async (context) => {
+    return context.send(context.i18n.locale);
 });
 ```
 
