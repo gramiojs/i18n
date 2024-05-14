@@ -1,6 +1,6 @@
 /**
  * @module
- * `i18n` plugin for [GramIO](https://gramio.netlify.app/).
+ * `i18n` plugin for [GramIO](https://gramio.dev/).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -53,18 +53,21 @@ export interface I18nOptions {
 export function i18n<Bundle extends FluentBundle = FluentBundle>(
 	options?: I18nOptions,
 	// Temporally fix slow types
-): Plugin<{}, import("gramio").DeriveDefinitions & {
-    global: {
-        /** Object with localization utils and settings */
-        i18n: {
-            /** Current user locale */
-            locale: string;
-            /** Set locale to current user */
-            setLocale: (lang: string) => void;
-        };
-        t: Bundle["formatPattern"];
-    };
-}> {
+): Plugin<
+	{},
+	import("gramio").DeriveDefinitions & {
+		global: {
+			/** Object with localization utils and settings */
+			i18n: {
+				/** Current user locale */
+				locale: string;
+				/** Set locale to current user */
+				setLocale: (lang: string) => void;
+			};
+			t: Bundle["formatPattern"];
+		};
+	}
+> {
 	const defaultLocale = options?.defaultLocale ?? "en";
 	const directory = options?.directory ?? "locales";
 

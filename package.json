@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "type": "commonjs",
     "homepage": "https://github.com/gramiojs/i18n",
-    "readme": "https://gramio.netlify.app/plugins/official/i18n.html",
+    "readme": "https://gramio.dev/plugins/official/i18n.html",
     "scripts": {
         "prepublishOnly": "tsc",
         "generate": "bun scripts/generate.ts",
