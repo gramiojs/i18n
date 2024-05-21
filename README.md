@@ -16,7 +16,7 @@ You can [setup type-safety](#type-safety) for it.
 
 ### Create `locales` folder with `en.ftl` file
 
-```ftl
+```fluent
 # Simple things are simple.
 hello-user = Hello, {$userName}!
 
