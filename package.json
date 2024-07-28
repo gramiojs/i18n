@@ -22,8 +22,7 @@
 	"readme": "https://gramio.dev/plugins/official/i18n.html",
 	"scripts": {
 		"prepublishOnly": "bunx pkgroll",
-		"generate": "bun scripts/generate.ts",
-		"jsr": "bun scripts/release-jsr.ts"
+		"generate": "bun scripts/generate.ts"
 	},
 	"keywords": [
 		"gramio",
