@@ -1,17 +1,12 @@
 {
-    "name": "@gramio/i18n",
-    "version": "0.0.3",
-    "exports": "./src/index.ts",
-    "publish": {
-        "include": [
-            "deno.json",
-            "src",
-            "README.md",
-            "tsconfig.json"
-        ]
-    },
-    "imports": {
-        "@fluent/bundle": "npm:@fluent/bundle@^0.18.0",
-        "gramio": "jsr:@gramio/core@^0.0.32"
-    }
+	"name": "@gramio/i18n",
+	"version": "0.0.3",
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": ["deno.json", "src", "README.md", "LICENSE"]
+	},
+	"imports": {
+		"@fluent/bundle": "npm:@fluent/bundle@^0.18.0",
+		"gramio": "jsr:@gramio/core@^0.0.32"
+	}
 }

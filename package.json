@@ -24,6 +24,7 @@
 		"prepublishOnly": "bunx pkgroll",
 		"generate": "bun scripts/generate.ts"
 	},
+	"license": "MIT",
 	"keywords": [
 		"gramio",
 		"gramio-plugin",
