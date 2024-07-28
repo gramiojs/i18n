@@ -1,44 +1,57 @@
 {
-    "name": "@gramio/i18n",
-    "version": "0.0.3",
-    "description": "i18n plugin for GramIO with type-safety",
-    "main": "dist/index.js",
-    "type": "commonjs",
-    "homepage": "https://github.com/gramiojs/i18n",
-    "readme": "https://gramio.dev/plugins/official/i18n.html",
-    "scripts": {
-        "prepublishOnly": "tsc",
-        "generate": "bun scripts/generate.ts",
-        "jsr": "bun scripts/release-jsr.ts"
-    },
-    "keywords": [
-        "gramio",
-        "gramio-plugin",
-        "i18n",
-        "internationalization",
-        "fluent",
-        "i10n",
-        "locales",
-        "languages",
-        "localization",
-        "translation",
-        "telegram-bot-api",
-        "telegram-bot"
-    ],
-    "devDependencies": {
-        "@biomejs/biome": "1.7.2",
-        "@types/bun": "^1.1.1",
-        "gramio": "^0.0.29",
-        "prettier": "^3.2.5",
-        "typescript": "^5.4.5"
-    },
-    "peerDependencies": {
-        "gramio": "^0.0.27"
-    },
-    "files": [
-        "dist"
-    ],
-    "dependencies": {
-        "@fluent/bundle": "^0.18.0"
-    }
+	"name": "@gramio/i18n",
+	"version": "0.0.4",
+	"description": "i18n plugin for GramIO with type-safety",
+	"main": "dist/index.cjs",
+	"module": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"import": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			},
+			"require": {
+				"types": "./dist/index.d.cts",
+				"default": "./dist/index.cjs"
+			}
+		}
+	},
+	"type": "module",
+	"homepage": "https://github.com/gramiojs/i18n",
+	"readme": "https://gramio.dev/plugins/official/i18n.html",
+	"scripts": {
+		"prepublishOnly": "bunx pkgroll",
+		"generate": "bun scripts/generate.ts",
+		"jsr": "bun scripts/release-jsr.ts"
+	},
+	"keywords": [
+		"gramio",
+		"gramio-plugin",
+		"i18n",
+		"internationalization",
+		"fluent",
+		"i10n",
+		"locales",
+		"languages",
+		"localization",
+		"translation",
+		"telegram-bot-api",
+		"telegram-bot"
+	],
+	"devDependencies": {
+		"@biomejs/biome": "1.7.2",
+		"@types/bun": "^1.1.6",
+		"gramio": "^0.0.46",
+		"pkgroll": "2.4.0",
+		"prettier": "^3.3.3",
+		"typescript": "^5.5.4"
+	},
+	"peerDependencies": {
+		"gramio": ">=0.0.39 <1.0.0"
+	},
+	"files": ["dist"],
+	"dependencies": {
+		"@fluent/bundle": "^0.18.0"
+	}
 }
