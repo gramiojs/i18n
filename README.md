@@ -91,7 +91,8 @@ You can set user locale by `setLocale` method.
 
 ```ts
 bot.command("start", async (context) => {
-    context.i18n.setLocale("ru");
+    context.i18n.setLocale("ru"); // if ru not found fallback to defaultLocale
+    // context.i18n.setLocale("ru", true); if ru not found throw error
 
     return context.send(
         context.t("shared-photos", {
