@@ -61,10 +61,10 @@ bot.start();
 
 ## Options
 
-| Key            | Type   | Default   | Description                               |
-| -------------- | ------ | --------- | ----------------------------------------- |
-| defaultLocale? | string | "en"      | Default locale                            |
-| directory?     | string | "locales" | The path to the folder with `*.ftl` files |
+| Key            | Type   | Default               | Description                               |
+| -------------- | ------ | --------------------- | ----------------------------------------- |
+| defaultLocale? | string | first loaded language | Default locale                            |
+| directory?     | string | "locales"             | The path to the folder with `*.ftl` files |
 
 ### Methods
 
@@ -110,6 +110,16 @@ Get current user locale.
 ```ts
 bot.command("lang", async (context) => {
     return context.send(context.i18n.locale);
+});
+```
+
+#### i18n.locales
+
+Get loaded locales
+
+```ts
+bot.command("languages", async (context) => {
+    return context.send(context.i18n.locales.join(", "));
 });
 ```
 

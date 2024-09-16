@@ -59,16 +59,17 @@ export function i18n<Bundle extends FluentBundle = FluentBundle>(
 		global: {
 			/** Object with localization utils and settings */
 			i18n: {
+				/** All languages */
+				locales: string[];
 				/** Current user locale */
 				locale: string;
 				/** Set locale to current user */
-				setLocale: (lang: string) => void;
+				setLocale: (lang: string, strict?: boolean) => void;
 			};
 			t: Bundle["formatPattern"];
 		};
 	}
 > {
-	const defaultLocale = options?.defaultLocale ?? "en";
 	const directory = options?.directory ?? "locales";
 
 	const bundles = new Map<string, FluentBundle>();
@@ -101,6 +102,10 @@ export function i18n<Bundle extends FluentBundle = FluentBundle>(
 		bundle.addResource(resource);
 		bundles.set(lang, bundle);
 	}
+	const defaultLocale = options?.defaultLocale ?? bundles.keys().next().value;
+
+	if (!defaultLocale)
+		throw new Error("Please specify one or more translations");
 
 	return new Plugin("@gramio/i18n").derive(() => {
 		let language = defaultLocale;
@@ -108,18 +113,25 @@ export function i18n<Bundle extends FluentBundle = FluentBundle>(
 		return {
 			/** Object with localization utils and settings */
 			i18n: {
+				/** All languages */
+				locales: Array.from(bundles.keys()),
 				/** Current user locale */
 				locale: language,
 				/** Set locale to current user */
-				setLocale: (lang: string) => {
-					if (!bundles.has(lang))
-						throw new Error(`No ${language} language found`);
+				setLocale: (lang: string, strict = false) => {
+					if (!bundles.has(lang)) {
+						console.log(language, defaultLocale, strict, bundles);
+						if (strict) throw new Error(`No ${language} language found`);
+						language = defaultLocale;
+						return;
+					}
 
 					language = lang;
 				},
 			},
 			t: ((id: string, args?: Record<string, FluentVariable>) => {
 				const bundle = bundles.get(language);
+
 				if (!bundle) throw new Error(`No ${language} language found`);
 
 				const message = bundle.getMessage(id);
