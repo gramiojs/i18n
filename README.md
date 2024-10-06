@@ -6,6 +6,47 @@
 
 `i18n` plugin for [GramIO](https://gramio.dev/).
 
+This plugin provide good way to add internationalization for your bots! It can be used without GramIO, but it will always keep it in mind.
+
+> [!IMPORTANT]
+> Since `1.0.0`, we have two ways to write localization: [`I18n-in-TS`](#i18n-in-ts-syntax) and [`Fluent`](#fluent-syntax)
+
+## I18n-in-TS syntax
+
+> [!WARNING]
+> This syntax under active development
+
+This syntax allows you to write localization without leaving `.ts` files and does not require code-generation for **type-safety**, as well as provides convenient integration with the Format API out of the box!
+
+```ts
+import { defineI18n } from "@gramio/i18n";
+
+const en = {
+    greeting: (name: string) => format`Hello, ${name}!`,
+};
+
+const ru: ShouldFollowLanguage<typeof en> = {
+    greeting: (name: string) => format`Привет, ${name}!`,
+};
+
+// Strict will show error on missing keys
+// const ru: ShouldFollowLanguageStrict<typeof en> = {};
+
+const i18n = defineI18n({
+    primaryLanguage: "en",
+    languages: {
+        en,
+        ru,
+    },
+});
+
+// TODO: plugin
+
+i18n.t("en", "greeting", "World"); // Hello, World!
+```
+
+## [Fluent](https://projectfluent.org/) syntax
+
 This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.
 
 ![example](https://github.com/gramiojs/i18n/assets/57632712/47e04c22-f442-4a5a-b8b9-15b8512f7c4b)
