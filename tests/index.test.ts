@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { format } from "gramio";
+import { Bot, format } from "gramio";
 import { defineI18n } from "../src";
 import type { ShouldFollowLanguage } from "../src/types";
 
@@ -37,8 +37,29 @@ describe("I18n", () => {
 		});
 
 		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
-		expect(i18n.t("rus" as string, "greeting", "World").toString()).toBe(
-			"Hello, World!",
-		);
+		expect(i18n.t("ens", "greeting", "World").toString()).toBe("Hello, World!");
+	});
+
+	it("Just pickup primary translation", () => {
+		const i18n = defineI18n({
+			primaryLanguage: "en",
+			languages: {
+				en,
+				ru,
+			},
+		});
+
+		const bot = new Bot("s")
+			.derive("message", (context) => {
+				return {
+					t: i18n.buildT((context.from?.languageCode as string) ?? "en"),
+				};
+			})
+			.on("message", (context) => {
+				context.t("greeting", "s");
+			});
+
+		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
+		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
 	});
 });

@@ -40,9 +40,20 @@ const i18n = defineI18n({
     },
 });
 
-// TODO: plugin
-
 i18n.t("en", "greeting", "World"); // Hello, World!
+
+const bot = new Bot(process.env.BOT_TOKEN as string)
+    .derive("message", (context) => {
+        // u can take language from database or whatever u want and bind it to context without loosing type-safety
+        return {
+            t: i18n.buildT(context.from?.languageCode ?? "en"),
+        };
+    })
+    .on("message", (context) => {
+        return context.send(
+            context.t("greeting", context.from?.firstName ?? "World")
+        );
+    });
 ```
 
 ## [Fluent](https://projectfluent.org/) syntax
@@ -81,7 +92,7 @@ shared-photos =
 ```ts
 // src/index.ts
 import { Bot } from "gramio";
-import { i18n } from "@gramio/i18n";
+import { i18n } from "@gramio/i18n/fluent";
 
 const bot = new Bot(process.env.TOKEN as string)
     .extend(i18n())
@@ -200,7 +211,7 @@ We set this type as a **generic** for the `i18n` plugin. And now we have **type-
 ```ts
 import type { TypedFluentBundle } from "./locales.types";
 import { Bot } from "gramio";
-import { i18n } from "@gramio/i18n";
+import { i18n } from "@gramio/i18n/fluent";
 
 const bot = new Bot(process.env.TOKEN as string)
     .extend(i18n<TypedFluentBundle>())
