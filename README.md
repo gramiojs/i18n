@@ -56,6 +56,12 @@ const bot = new Bot(process.env.BOT_TOKEN as string)
     });
 ```
 
+`ExtractLanguages` helps you extract languages types from i18n instance.
+
+```ts
+type EnLocalizationKeys = keyof ExtractLanguages<typeof i18n>["en"];
+```
+
 ## [Fluent](https://projectfluent.org/) syntax
 
 This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.

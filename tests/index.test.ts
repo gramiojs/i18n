@@ -1,13 +1,23 @@
 import { describe, expect, it } from "bun:test";
 import { Bot, format } from "gramio";
 import { defineI18n } from "../src";
-import type { ShouldFollowLanguage } from "../src/types";
+import type { ExtractLanguages, ShouldFollowLanguage } from "../src/types";
 
 const en = {
 	greeting: (name: string) => format`Hello, ${name}!`,
 };
 
 const ru: ShouldFollowLanguage<typeof en> = {};
+
+const i18n1 = defineI18n({
+	languages: {
+		en,
+		ru,
+	},
+	primaryLanguage: "en",
+});
+
+type A = ExtractLanguages<typeof i18n1>["en"];
 
 describe("I18n", () => {
 	it("Just t", () => {

@@ -40,3 +40,17 @@ export type ShouldFollowLanguageStrict<Language extends LanguageMap> = {
 };
 
 export type SoftString<Strings> = Strings | ({} & string);
+
+export interface I18nOptions<
+	Languages extends LanguagesMap,
+	PrimaryLanguage extends keyof Languages,
+> {
+	languages: Languages;
+	primaryLanguage: PrimaryLanguage;
+}
+
+export type ExtractLanguages<T> = T extends {
+	_: { languages: infer Languages };
+}
+	? Languages
+	: never;

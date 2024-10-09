@@ -1,19 +1,12 @@
 import type {
 	ExtractArgsParams,
 	ExtractItemValue,
+	I18nOptions,
 	LanguagesMap,
 	SoftString,
 } from "./types.js";
 
 export * from "./types.js";
-
-export interface I18nOptions<
-	Languages extends LanguagesMap,
-	PrimaryLanguage extends keyof Languages,
-> {
-	languages: Languages;
-	primaryLanguage: PrimaryLanguage;
-}
 
 export function defineI18n<
 	Languages extends LanguagesMap,
@@ -78,6 +71,10 @@ export function defineI18n<
 					? ExtractArgsParams<FallbackItem>
 					: ExtractArgsParams<Item>
 			): ExtractItemValue<Item, FallbackItem> => t(language, key, ...args);
+		},
+		_: {
+			languages,
+			primaryLanguage,
 		},
 		// plugin: () => {},
 	};
