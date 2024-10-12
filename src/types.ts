@@ -27,9 +27,11 @@ export type ExtractArgsParams<Item extends LocaleItem> =
 
 export type ExtractItemValue<
 	Item extends LocaleItem,
-	FallbackItem extends LocaleItem,
-> = Item extends never | undefined | unknown
-	? FallbackItem
+	FallbackItem extends LocaleItem = never,
+> = [Item] extends [never]
+	? [FallbackItem] extends [never]
+		? never
+		: ExtractItemValue<FallbackItem>
 	: Item extends LocaleArgs
 		? ReturnType<Item>
 		: Item;
