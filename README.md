@@ -19,18 +19,22 @@ This plugin provide good way to add internationalization for your bots! It can b
 This syntax allows you to write localization without leaving `.ts` files and does not require code-generation for **type-safety**, as well as provides convenient integration with the Format API out of the box!
 
 ```ts
-import { defineI18n } from "@gramio/i18n";
+import {
+    defineI18n,
+    type LanguageMap,
+    type ShouldFollowLanguage,
+} from "@gramio/i18n";
 
 const en = {
     greeting: (name: string) => format`Hello, ${name}!`,
-};
+} satisfies LanguageMap;
 
-const ru: ShouldFollowLanguage<typeof en> = {
+const ru = {
     greeting: (name: string) => format`Привет, ${name}!`,
-};
+} satisfies ShouldFollowLanguage<typeof en>;
 
 // Strict will show error on missing keys
-// const ru: ShouldFollowLanguageStrict<typeof en> = {};
+// satisfies ShouldFollowLanguageStrict<typeof en>;
 
 const i18n = defineI18n({
     primaryLanguage: "en",
@@ -59,7 +63,10 @@ const bot = new Bot(process.env.BOT_TOKEN as string)
 `ExtractLanguages` helps you extract languages types from i18n instance.
 
 ```ts
+type EnLocalization = ExtractLanguages<typeof i18n>["en"];
 type EnLocalizationKeys = keyof ExtractLanguages<typeof i18n>["en"];
+
+type EnGreetingArgs = ExtractArgsParams<EnLocalization["greeting"]>;
 ```
 
 ## [Fluent](https://projectfluent.org/) syntax

@@ -14,7 +14,7 @@ const en = {
 	}),
 } satisfies LanguageMap;
 
-const ru: ShouldFollowLanguage<typeof en> = {};
+const ru = {} satisfies ShouldFollowLanguage<typeof en>;
 
 const i18n1 = defineI18n({
 	languages: {
