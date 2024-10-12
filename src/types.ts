@@ -1,6 +1,9 @@
-import type { FormattableString } from "gramio";
+import type { FormattableString, SendMessageParams } from "gramio";
 
-export type LocaleValue = string | FormattableString;
+export type LocaleValue =
+	| string
+	| FormattableString
+	| Omit<SendMessageParams, "chat_id">;
 
 export type LocaleArgs<Arguments extends any[] = any[]> = (
 	...args: Arguments

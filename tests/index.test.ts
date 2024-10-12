@@ -1,11 +1,18 @@
 import { describe, expect, it } from "bun:test";
-import { Bot, format } from "gramio";
+import { Bot, InlineKeyboard, format } from "gramio";
 import { defineI18n } from "../src";
-import type { ExtractLanguages, ShouldFollowLanguage } from "../src/types";
+import type {
+	ExtractLanguages,
+	LanguageMap,
+	ShouldFollowLanguage,
+} from "../src/types";
 
 const en = {
-	greeting: (name: string) => format`Hello, ${name}!`,
-};
+	greeting: (name: string) => ({
+		text: "",
+		reply_markup: new InlineKeyboard(),
+	}),
+} satisfies LanguageMap;
 
 const ru: ShouldFollowLanguage<typeof en> = {};
 
