@@ -16,6 +16,7 @@ This plugin provide good way to add internationalization for your bots! It can b
 This syntax allows you to write localization without leaving `.ts` files and does not require code-generation for **type-safety**, as well as provides convenient integration with the Format API out of the box!
 
 ```ts
+import { format } from "gramio";
 import {
     defineI18n,
     type LanguageMap,
