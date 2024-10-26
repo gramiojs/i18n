@@ -1,6 +1,6 @@
 {
 	"name": "@gramio/i18n",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "i18n plugin for GramIO with type-safety",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
@@ -51,12 +51,12 @@
 		"i18n-in-ts"
 	],
 	"devDependencies": {
-		"@biomejs/biome": "1.9.3",
-		"@types/bun": "^1.1.10",
-		"gramio": "^0.0.50",
-		"pkgroll": "2.5.0",
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "^1.1.12",
+		"gramio": "^0.1.1",
+		"pkgroll": "2.5.1",
 		"prettier": "^3.3.3",
-		"typescript": "^5.6.2"
+		"typescript": "^5.6.3"
 	},
 	"peerDependencies": {
 		"gramio": ">=0.0.39 <1.0.0",

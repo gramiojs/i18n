@@ -34,7 +34,6 @@ export function defineI18n<
 	): ExtractItemValue<Item, FallbackItem> {
 		// @ts-expect-error trust me bro
 		const fallbackItem = languages[primaryLanguage][key];
-		console.log(languages[primaryLanguage], primaryLanguage);
 
 		const item = languages[language]
 			? // @ts-expect-error
