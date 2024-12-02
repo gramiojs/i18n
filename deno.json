@@ -7,6 +7,6 @@
 	},
 	"imports": {
 		"@fluent/bundle": "npm:@fluent/bundle@^0.18.0",
-		"gramio": "jsr:@gramio/core@^0.0.32"
+		"gramio": "jsr:@gramio/core@^0.1.3"
 	}
 }

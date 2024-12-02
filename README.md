@@ -25,10 +25,20 @@ import {
 
 const en = {
     greeting: (name: string) => format`Hello, ${name}!`,
+    and: {
+        some: {
+            nested: "Hi!!!",
+        },
+    },
 } satisfies LanguageMap;
 
 const ru = {
     greeting: (name: string) => format`Привет, ${name}!`,
+    and: {
+        some: {
+            nested: "Hi!!!",
+        },
+    },
 } satisfies ShouldFollowLanguage<typeof en>;
 
 // Strict will show error on missing keys
@@ -43,6 +53,7 @@ const i18n = defineI18n({
 });
 
 i18n.t("en", "greeting", "World"); // Hello, World!
+i18n.t("en", "and.some.nested"); // Hi!!!
 
 const bot = new Bot(process.env.BOT_TOKEN as string)
     .derive("message", (context) => {

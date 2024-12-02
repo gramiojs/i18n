@@ -8,10 +8,16 @@ import type {
 } from "../src/types";
 
 const en = {
-	greeting: (name: string) => ({
-		text: "",
-		reply_markup: new InlineKeyboard(),
-	}),
+	greeting: (name: string) => `Hello, ${name}!`,
+	hi: {
+		i: {
+			really: {
+				deep: {
+					translation: "",
+				},
+			},
+		},
+	},
 } satisfies LanguageMap;
 
 const ru = {} satisfies ShouldFollowLanguage<typeof en>;
@@ -31,14 +37,28 @@ describe("I18n", () => {
 		const i18n = defineI18n({
 			languages: {
 				en: {
+					// test: "",
 					greeting: (name: string) => format`Hello, ${name}!`,
+					// some: {
+					// 	r: {
+					// 		greeting: (name: string) => format`Привет, ${name}!`,
+					// 	},
+					// },
 				},
 				ru: {
+					// test: "",
 					greeting: (name: string) => format`Привет, ${name}!`,
+					some: {
+						r: {
+							greeting: (name: string) => format`Привет, ${name}!`,
+						},
+					},
 				},
 			},
 			primaryLanguage: "en",
 		});
+
+		i18n.t("ru", "some.r.greeting", "World");
 
 		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
 		expect(i18n.t("ru", "greeting", "World").toString()).toBe("Привет, World!");
@@ -69,11 +89,11 @@ describe("I18n", () => {
 		const bot = new Bot("s")
 			.derive("message", (context) => {
 				return {
-					t: i18n.buildT((context.from?.languageCode as string) ?? "en"),
+					t: i18n.buildT(context.from?.languageCode ?? "en"),
 				};
 			})
 			.on("message", (context) => {
-				context.t("greeting", "s");
+				return context.send(context.t("hi.i.really.deep.translation"));
 			});
 
 		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");

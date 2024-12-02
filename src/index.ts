@@ -1,10 +1,13 @@
 import type {
 	ExtractArgsParams,
 	ExtractItemValue,
+	GetValueNested,
 	I18nOptions,
 	LanguagesMap,
+	NestedKeysDelimited,
 	SoftString,
 } from "./types.js";
+import { buildT } from "./utils.js";
 
 export * from "./types.js";
 
@@ -12,39 +15,7 @@ export function defineI18n<
 	Languages extends LanguagesMap,
 	PrimaryLanguage extends keyof Languages,
 >({ languages, primaryLanguage }: I18nOptions<Languages, PrimaryLanguage>) {
-	// TODO: вынести из скоупа
-	function t<
-		Language extends SoftString<keyof Languages>,
-		Key extends Language extends keyof Languages
-			? keyof Languages[Language]
-			: keyof Languages[PrimaryLanguage],
-		Item extends Language extends keyof Languages
-			? // @ts-expect-error
-				Languages[Language][Key]
-			: // @ts-expect-error
-				Languages[PrimaryLanguage][Key],
-		// @ts-expect-error trust me bro
-		FallbackItem extends Languages[PrimaryLanguage][Key],
-	>(
-		language: Language,
-		key: Key,
-		...args: Item extends unknown
-			? ExtractArgsParams<FallbackItem>
-			: ExtractArgsParams<Item>
-	): ExtractItemValue<Item, FallbackItem> {
-		// @ts-expect-error trust me bro
-		const fallbackItem = languages[primaryLanguage][key];
-
-		const item = languages[language]
-			? // @ts-expect-error
-				(languages[language][key] ?? fallbackItem)
-			: fallbackItem;
-
-		// @ts-expect-error trust me bro
-		if (typeof item === "function") return item(...args);
-
-		return item;
-	}
+	const t = buildT(languages, primaryLanguage);
 
 	return {
 		t,
@@ -55,20 +26,20 @@ export function defineI18n<
 		) => {
 			return <
 				Key extends Language extends keyof Languages
-					? keyof Languages[Language]
-					: keyof Languages[PrimaryLanguage],
+					? NestedKeysDelimited<Languages[Language]>
+					: NestedKeysDelimited<Languages[PrimaryLanguage]>,
 				Item extends Language extends keyof Languages
-					? // @ts-expect-error trust me bro
-						Languages[Language][Key]
-					: // @ts-expect-error trust me bro
-						Languages[PrimaryLanguage][Key],
-				// @ts-expect-error trust me bro
-				FallbackItem extends Languages[PrimaryLanguage][Key],
+					? GetValueNested<Languages[Language], Key>
+					: GetValueNested<Languages[PrimaryLanguage], Key>,
+				FallbackItem extends GetValueNested<Languages[PrimaryLanguage], Key>,
 			>(
 				key: Key,
 				...args: Item extends unknown
-					? ExtractArgsParams<FallbackItem>
-					: ExtractArgsParams<Item>
+					? // @ts-expect-error
+						ExtractArgsParams<FallbackItem>
+					: // @ts-expect-error
+						ExtractArgsParams<Item>
+				// @ts-expect-error
 			): ExtractItemValue<Item, FallbackItem> => t(language, key, ...args);
 		},
 		_: {

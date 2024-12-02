@@ -1,19 +1,38 @@
 import type { FormattableString, SendMessageParams } from "gramio";
 
-export type LocaleValue =
-	| string
-	| FormattableString
-	| Omit<SendMessageParams, "chat_id">;
+type Values<T> = T[keyof T];
+type SafeGet<T, K extends string> = T extends Record<K, unknown> ? T[K] : never;
 
+export type LocaleValue = string | FormattableString;
+// | Omit<SendMessageParams, "chat_id">;
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type LocaleArgs<Arguments extends any[] = any[]> = (
 	...args: Arguments
 ) => LocaleValue;
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type LocaleItem<Arguments extends any[] = any[]> =
 	| LocaleArgs<Arguments>
 	| LocaleValue;
 
-export type LanguageMap = Record<string, LocaleItem>;
+export interface LanguageMap {
+	[key: string]: LocaleItem | LanguageMap;
+}
+
+export type NestedKeysDelimited<T> = Values<{
+	[key in Extract<keyof T, string>]: T[key] extends LocaleItem
+		? key
+		: `${key}.${T[key] extends infer R ? NestedKeysDelimited<R> : never}`;
+}>;
+
+// TODO: calculate nested keys once on `defineI18n`
+export type GetValueNested<
+	T,
+	K extends string,
+> = K extends `${infer P}.${infer Q}`
+	? GetValueNested<SafeGet<T, P>, Q>
+	: SafeGet<T, K>;
 
 // export interface PrimaryLanguage {
 // 	name: string;
