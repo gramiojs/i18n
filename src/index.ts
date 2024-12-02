@@ -21,8 +21,8 @@ export function defineI18n<
 		t,
 		languages: Object.keys(languages) as (keyof Languages)[],
 		primaryLanguage,
-		buildT: <Language extends SoftString<keyof Languages>>(
-			language: Language,
+		buildT: <Language extends SoftString<keyof Languages> = PrimaryLanguage>(
+			language?: Language,
 		) => {
 			return <
 				Key extends Language extends keyof Languages

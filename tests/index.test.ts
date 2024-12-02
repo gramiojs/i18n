@@ -89,7 +89,7 @@ describe("I18n", () => {
 		const bot = new Bot("s")
 			.derive("message", (context) => {
 				return {
-					t: i18n.buildT(context.from?.languageCode ?? "en"),
+					t: i18n.buildT(context.from?.languageCode),
 				};
 			})
 			.on("message", (context) => {
