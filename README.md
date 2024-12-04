@@ -1,6 +1,7 @@
 # @gramio/i18n
 
 [![npm](https://img.shields.io/npm/v/@gramio/i18n?logo=npm&style=flat&labelColor=000&color=3b82f6)](https://www.npmjs.org/package/@gramio/i18n)
+[![npm downloads](https://img.shields.io/npm/dw/@gramio/i18n?logo=npm&style=flat&labelColor=000&color=3b82f6)](https://www.npmjs.org/package/@gramio/i18n)
 [![JSR](https://jsr.io/badges/@gramio/i18n)](https://jsr.io/@gramio/i18n)
 [![JSR Score](https://jsr.io/badges/@gramio/i18n/score)](https://jsr.io/@gramio/i18n)
 
