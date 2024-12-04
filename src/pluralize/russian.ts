@@ -1,3 +1,4 @@
+// TODO: introduce %d
 export function pluralizeRussian<T>(count: number, one: T, few: T, many: T): T {
 	const mod10 = count % 10;
 	const mod100 = count % 100;
