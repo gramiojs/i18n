@@ -10,6 +10,8 @@ import type {
 import { buildT } from "./utils.js";
 
 export * from "./types.js";
+export * from "./pluralize/english.js";
+export * from "./pluralize/russian.js";
 
 export function defineI18n<
 	Languages extends LanguagesMap,
