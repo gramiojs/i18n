@@ -12,6 +12,20 @@ This plugin provide good way to add internationalization for your bots! It can b
 > [!IMPORTANT]
 > Since `1.0.0`, we have two ways to write localization: [`I18n-in-TS`](#i18n-in-ts-syntax) and [`Fluent`](#fluent-syntax)
 
+### Installation
+
+For [I18n-in-TS syntax](#i18n-in-ts-syntax)
+
+```bash
+npm install @gramio/i18n
+```
+
+For [Fluent syntax](#fluent-syntax)
+
+```bash
+npm install @gramio/i18n @fluent/bundle
+```
+
 ## I18n-in-TS syntax
 
 This syntax allows you to write localization without leaving `.ts` files and does not require code-generation for **type-safety**, as well as provides convenient integration with the Format API out of the box!
