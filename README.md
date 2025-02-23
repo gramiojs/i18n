@@ -283,6 +283,7 @@ import { Bot } from "gramio";
 import { i18n } from "@gramio/i18n/fluent";
 
 const bot = new Bot(process.env.BOT_TOKEN as string)
+    // or i18n(getFluentClient<TypedFluentBundle>())
     .extend(i18n<TypedFluentBundle>())
     .command("start", async (context) => {
         return context.send(
