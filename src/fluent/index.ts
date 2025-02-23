@@ -14,6 +14,8 @@ import {
 	getFluentClient,
 } from "./client.js";
 
+export * from "./client.js";
+
 /**
  * This plugin provide internationalization for your bots with [Fluent](https://projectfluent.org/) syntax.
  * @example
