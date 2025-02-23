@@ -145,7 +145,7 @@ shared-photos =
 import { Bot } from "gramio";
 import { i18n } from "@gramio/i18n/fluent";
 
-const bot = new Bot(process.env.TOKEN as string)
+const bot = new Bot(process.env.BOT_TOKEN as string)
     .extend(i18n())
     .command("start", async (context) => {
         return context.send(
@@ -168,6 +168,24 @@ bot.start();
 | -------------- | ------ | --------------------- | ----------------------------------------- |
 | defaultLocale? | string | first loaded language | Default locale                            |
 | directory?     | string | "locales"             | The path to the folder with `*.ftl` files |
+
+##### Or provide an client
+
+```ts
+// ...
+import { getFluentClient, i18n } from "@gramio/i18n/fluent";
+
+const client = getFluentClient({
+    defaultLocale: "en",
+    directory: "locales",
+});
+
+const bot = new Bot(process.env.BOT_TOKEN as string)
+    .extend(i18n(client))
+    .command("start", async (context) => {
+        return context.send(context.t("hello-user", { userName: "Anna" }));
+    });
+```
 
 ### Methods
 
@@ -264,7 +282,7 @@ import type { TypedFluentBundle } from "./locales.types";
 import { Bot } from "gramio";
 import { i18n } from "@gramio/i18n/fluent";
 
-const bot = new Bot(process.env.TOKEN as string)
+const bot = new Bot(process.env.BOT_TOKEN as string)
     .extend(i18n<TypedFluentBundle>())
     .command("start", async (context) => {
         return context.send(

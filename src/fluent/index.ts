@@ -21,7 +21,7 @@ import {
  * import { Bot } from "gramio";
  * import { i18n } from "@gramio/i18n";
  *
- * const bot = new Bot(process.env.TOKEN as string)
+ * const bot = new Bot(process.env.BOT_TOKEN as string)
  *     .extend(i18n())
  *     .command("start", async (context) => {
  *         return context.send(
