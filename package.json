@@ -1,6 +1,6 @@
 {
 	"name": "@gramio/i18n",
-	"version": "1.3.0",
+	"version": "1.4.0",
 	"description": "i18n plugin for GramIO with type-safety",
 	"main": "dist/index.cjs",
 	"module": "dist/index.js",
