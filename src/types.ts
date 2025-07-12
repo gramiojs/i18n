@@ -78,3 +78,19 @@ export type ExtractLanguages<T> = T extends {
 }
 	? Languages
 	: never;
+
+export type GetI18nParams<
+	I18n extends I18nOptions<any, any>,
+	Key extends NestedKeysDelimited<
+		ExtractLanguages<I18n>
+	>[I18n["primaryLanguage"]],
+> = Key extends NestedKeysDelimited<
+	ExtractLanguages<I18n>
+>[I18n["primaryLanguage"]]
+	? ExtractArgsParams<
+			GetValueNested<ExtractLanguages<I18n>[I18n["primaryLanguage"]], Key>
+		>
+	: never;
+
+export type GetI18nKeys<I18n extends I18nOptions<any, any>> =
+	NestedKeysDelimited<ExtractLanguages<I18n>[I18n["primaryLanguage"]]>;

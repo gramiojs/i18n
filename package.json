@@ -53,6 +53,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/bun": "^1.2.3",
+		"expect-type": "^1.2.2",
 		"gramio": "^0.1.5",
 		"mitata": "^1.0.34",
 		"pkgroll": "2.5.1",

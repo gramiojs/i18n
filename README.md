@@ -98,9 +98,19 @@ console.log(
 ); // У вас 5 яблок.
 ```
 
-`ExtractLanguages` helps you extract languages types from i18n instance.
+### Get type-safe params for i18n
 
 ```ts
+// Most great way to get type-safe params for i18n
+export type GetI18nArgs<Key extends GetI18nKeys<typeof i18n>> = GetI18nParams<
+    typeof i18n,
+    Key
+>;
+
+function test(...args: GetI18nArgs<"greeting">) {
+    return args;
+}
+
 type EnLocalization = ExtractLanguages<typeof i18n>["en"];
 type EnLocalizationKeys = keyof ExtractLanguages<typeof i18n>["en"];
 
