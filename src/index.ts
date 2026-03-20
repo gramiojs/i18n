@@ -44,6 +44,36 @@ export function defineI18n<
 				// @ts-expect-error
 			): ExtractItemValue<Item, FallbackItem> => t(language, key, ...args);
 		},
+		/**
+		 * Generate a `{ languageCode: description }` record for all non-primary languages.
+		 * Designed for use with `CommandMeta.locales` in `syncCommands()`.
+		 *
+		 * Only includes languages where the key resolves to a plain string (no args).
+		 *
+		 * @example
+		 * ```ts
+		 * bot.command("help", {
+		 *     description: i18n.t("en", "cmd.help"),
+		 *     locales: i18n.localesFor("cmd.help"),
+		 * }, (ctx) => ctx.send("Help"));
+		 * ```
+		 */
+		localesFor<
+			Key extends NestedKeysDelimited<Languages[PrimaryLanguage]>,
+		>(
+			key: Key,
+			...args: ExtractArgsParams<GetValueNested<Languages[PrimaryLanguage], Key>>
+		): Record<string, string> {
+			const result: Record<string, string> = {};
+			for (const lang of Object.keys(languages)) {
+				if (lang === primaryLanguage) continue;
+				const value = t(lang as SoftString<keyof Languages>, key as any, ...args as any);
+				if (value != null) {
+					result[lang] = String(value);
+				}
+			}
+			return result;
+		},
 		_: {
 			languages,
 			primaryLanguage,

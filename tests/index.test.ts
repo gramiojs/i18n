@@ -99,4 +99,86 @@ describe("I18n", () => {
 		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
 		expect(i18n.t("en", "greeting", "World").toString()).toBe("Hello, World!");
 	});
+
+	it("localesFor returns non-primary language translations", () => {
+		const i18n = defineI18n({
+			primaryLanguage: "en",
+			languages: {
+				en: {
+					cmd: {
+						start: "Start the bot",
+						help: "Show help",
+					},
+				},
+				ru: {
+					cmd: {
+						start: "Запустить бота",
+						help: "Помощь",
+					},
+				},
+				de: {
+					cmd: {
+						start: "Bot starten",
+						help: "Hilfe anzeigen",
+					},
+				},
+			},
+		});
+
+		const locales = i18n.localesFor("cmd.start");
+		expect(locales).toEqual({
+			ru: "Запустить бота",
+			de: "Bot starten",
+		});
+		expect(locales.en).toBeUndefined();
+	});
+
+	it("localesFor excludes primary language", () => {
+		const i18n = defineI18n({
+			primaryLanguage: "en",
+			languages: {
+				en: { greeting: "Hello" },
+				ru: { greeting: "Привет" },
+			},
+		});
+
+		const locales = i18n.localesFor("greeting");
+		expect(Object.keys(locales)).toEqual(["ru"]);
+		expect(locales.ru).toBe("Привет");
+	});
+
+	it("localesFor works with function translations (with args)", () => {
+		const i18n = defineI18n({
+			primaryLanguage: "en",
+			languages: {
+				en: {
+					cmd: { greet: (name: string) => `Hello, ${name}` },
+				},
+				ru: {
+					cmd: { greet: (name: string) => `Привет, ${name}` },
+				},
+			},
+		});
+
+		const locales = i18n.localesFor("cmd.greet", "World");
+		expect(locales).toEqual({
+			ru: "Привет, World",
+		});
+	});
+
+	it("localesFor falls back to primary language value when key is missing", () => {
+		const i18n = defineI18n({
+			primaryLanguage: "en",
+			languages: {
+				en: {
+					cmd: { start: "Start" },
+				},
+				ru: {} satisfies ShouldFollowLanguage<{ cmd: { start: string } }>,
+			},
+		});
+
+		const locales = i18n.localesFor("cmd.start");
+		// ru doesn't have its own value, falls back to "Start"
+		expect(locales.ru).toBe("Start");
+	});
 });
