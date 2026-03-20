@@ -62,6 +62,7 @@ export function defineI18n<
 			Key extends NestedKeysDelimited<Languages[PrimaryLanguage]>,
 		>(
 			key: Key,
+			// @ts-expect-error same pattern as buildT — GetValueNested doesn't satisfy LocaleItem constraint
 			...args: ExtractArgsParams<GetValueNested<Languages[PrimaryLanguage], Key>>
 		): Record<string, string> {
 			const result: Record<string, string> = {};
